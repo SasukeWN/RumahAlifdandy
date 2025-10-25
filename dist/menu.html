@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RumahAlifDandy</title>
+    <link rel="stylesheet" href="/dist/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+
+
+<body class="bg-gray-50">
+    <!-- Floating WhatsApp Button -->
+    <a href="wa.html" class="whatsapp-float" rel="noopener noreferrer" target="_blank"
+        aria-label="Hubungi kami via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div
+                        class="w-10 h-10 bg-blue-600 rounded-md flex items-center justify-center text-white font-bold mr-2">
+                        R
+                    </div>
+                    <h1 class="text-xl md:text-2xl font-bold text-blue-700">RumahAlifDandy</h1>
+                </div>
+
+                <div class="flex items-center justify-center gap-10 ">
+                    <nav class="hidden md:flex space-x-8">
+                        <a href="index.html" class="text-gray-700 hover:text-blue-600 transition">Beranda</a>
+                        <!-- <a href="#about" class="text-gray-700 hover:text-blue-600 transition">Tentang</a> -->
+                        <!-- <a href="#services" class="text-gray-700 hover:text-blue-600 transition">Layanan</a> -->
+                        <a href="#kategori" class="text-gray-700 hover:text-blue-600 transition">Menu</a>
+                        <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Kontak</a>
+                    </nav>
+
+                    <div>
+                        <div id="cart-btn" class="relative cursor-pointer ">
+                            <i class="fa-solid fa-cart-shopping text-2xl hover:text-blue-500 transition"></i>
+                            <span id="cart-count"
+                                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 rounded-full hidden">0</span>
+                        </div>
+
+                    </div>
+
+                    <button id="mobile"
+                        class="md:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 transition">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+
+                <div id="mobile-nav"
+                    class="fixed top-0 left-0 w-[50%] h-full bg-white shadow-lg z-40 md:hidden transform -translate-x-full transition-transform duration-300">
+                    <div class="p-4 border-b flex items-center justify-between">
+                        <h2 class="text-xl font-bold text-blue-700">Menu</h2>
+                        <button id="close-mobile"
+                            class=" hover:bg-gray-200 w-12 h-12 p-2 rounded-full transition relative justify-center items-center flex">
+                            <i class="fas fa-times text-xl top-10 right-4 cursor-pointer"></i>
+                        </button>
+                    </div>
+                    <nav class="flex flex-col gap-4 p-4 justify-between">
+                        <a href="index.html" id="beranda" class="text-gray-700 hover:text-blue-600">Beranda</a>
+                        <!-- <a href="#about" id="tentang" class="text-gray-700 hover:text-blue-600">Tentang</a> -->
+                        <a href="#kategori" id="produk" class="text-gray-700 hover:text-blue-600">Menu</a>
+                        <a href="#contact" id="Kontak" class="text-gray-700 hover:text-blue-600">Kontak</a>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- CART POPUP -->
+    <div id="cart-popup" class="fixed inset-0 bg-black/50 bg-opacity-40  items-center justify-center hidden z-50">
+        <div class="bg-white w-120 rounded-2xl shadow-lg p-5 relative md:w-140">
+
+
+            <div class="flex justify-between items-center border-b pb-3">
+                <h2 class="text-lg font-bold text-blue-700">Keranjang Belanja</h2>
+                <button id="close-cart" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+            </div>
+
+            <!-- List produk -->
+            <ul id="cart-items" class="divide-y divide-gray-200 mt-3 max-h-64 overflow-y-auto">
+
+            </ul>
+
+
+            <!-- Total -->
+            <div class="mt-4 flex justify-between items-center border-t pt-3">
+                <span class="font-bold text-gray-700">Total:</span>
+                <span id="cart-total" class="font-bold text-blue-700">Rp0</span>
+            </div>
+
+            <label for="cart-nama">Masukan nama:</label>
+            <input type="text" id="cart-nama" required class="bg-white rounded-[5px] w-full border-2 border-black "
+                placeholder="masukan nama">
+
+            <!-- Tombol checkout -->
+            <a href="#" id="wa-btn">
+                <button class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
+                    pesan Ke wa
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <!-- section 1 -->
+
+    <section class="bg-gradient-to-r shadow-lg from-blue-100 to-indigo-50 p-10 min-h-[110px] flex items-center">
+        <div class="w-full p-4 md:p-10 flex flex-col items-center space-y-8">
+            <h2 class="text-3xl font-bold text-blue-700">Menu</h2>
+            <p class="text-[16px] md:text-[20px] text-gray-700 leading-relaxed 
+              text-center md:text-justify max-w-4xl md:w-auto mx-auto">
+                <span class="text-gray-700 font-bold text-[18px] md:text-[25px]">RumahAlifdandy</span>
+                hadir untuk memenuhi kebutuhan kuliner Anda. Kami menyediakan beragam menu makanan dan minuman,
+                mulai dari ayam sambel, nasi box, hingga layanan catering. Cocok untuk makan sehari-hari maupun acara
+                spesial.
+                Rasa lezat, harga bersahabat.
+            </p>
+        </div>
+    </section>
+
+    <!-- kategori section -->
+    <section id="kategori" class="bg-gray-100 py-16 scroll-mt-24">
+        <div class=" flex flex-row justify-center items-center space-x-4 p-4 rounded-md max-w-3xl mx-auto">
+            <label for="">Kategori:</label>
+            <div class="flex justify-center items-center text-center text-sm md:text-base font-medium text-gray-700">
+                <a href="#ayam" class="text-blue-700 hover:text-blue-900 mx-2">Ayam</a> |
+                <a href="#minuman" class="text-blue-700 hover:text-blue-900 mx-2">Minuman</a> |
+                <a href="#sambal" class="text-blue-700 hover:text-blue-900 mx-2">Sambal</a> |
+                <a href="#siomay" class="text-blue-700 hover:text-blue-900 mx-2">Siomay</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Produk ayam  -->
+    <section id="ayam" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-blue-700 text-center mb-12 underline underline-offset-8">Ayam</h2>
+
+            <!-- Grid Produk -->
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                <!-- Card 1 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl hover:scale-105 transition duration-300">
+                        <img src="/dist/asset/Ayam-ungkep.jpg" alt="Ayam Sambel" class="w-full h-150 object-cover  ">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Ayam ungkep serundeng frozen </h3>
+                            <p class="text-gray-600 text-sm mt-2">Ayam ungkep serundeng frozen siap goreng.
+                            </p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 30.000</span>
+                            </div>
+                            <p class="text-sm text-red-500 mt-2">*Tanyakan stok terlebih dahulu</p>
+                            <button onclick="tambahKeKeranjang('1', 'Ayam ungkep serundeng frozen', 30000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full bg-blue-500 hover:bg-blue-400 transition-all duration-300 ease-in-out">tambah
+                                ke keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl hover:scale-105 transition duration-300">
+                        <img src="/dist/asset/Menu ayam1.jpg" alt="Ayam Sambel" class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Ayam Teriyaki</h3>
+                            <p class="text-gray-600 text-sm mt-2">Ayam Teriyaki
+
+                            </p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 15.000</span>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('2', 'Ayam Teriyaki', 15000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl hover:scale-105 transition duration-300">
+                        <img src="/dist/asset/ayam-gepre.jpg" alt="Ayam Sambel" class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Ayam Geprek</h3>
+                            <p class="text-gray-600 text-sm mt-2">Ayam geprek.
+                            </p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 25.000</span>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('3', 'Ayam Geprek', 25000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- section minuman -->
+    <section id="minuman" class=" bg-white py-16">
+        <div class=" mx-auto px-4 container">
+            <h2 class="text-3xl font-bold text-blue-700 text-center mb-12  underline underline-offset-8">Minuman</h2>
+
+            <!-- Grid Produk -->
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                <!-- card 1-->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl  overflow-hidden hover:shadow-2xl hover:scale-105 transition duration-300 ">
+                        <img src="/dist/asset/jus-jambu.jpg" alt="-" class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 ">Jus jambu</h3>
+                            <p class="text-gray-600 text-sm mt-2">Jus jambu</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 10.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('4', 'Jus Jambu', 10000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed">
+                                STOK HABIS
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card 2 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/jus-sirsak.jpg" alt="-" class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Jus Sirsak</h3>
+                            <p class="text-gray-600 text-sm mt-2">Jus Sirsak</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 10.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('5', 'Jus Sirsak', 10000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card 3 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/jus-mangga.jpg" alt="-" class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Jus Mangga</h3>
+                            <p class="text-gray-600 text-sm mt-2">Jus Mangga</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 10.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('6', 'Jus Mangga', 10000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/jus-melon.jpg" alt="jus melon"
+                            class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Jus Melon</h3>
+                            <p class="text-gray-600 text-sm mt-2">Jus Melon</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 10.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('7', 'Jus Melon', 10000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/es-jeruk.jpg" alt="-" class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Es Jeruk </h3>
+                            <p class="text-gray-600 text-sm mt-2">Es Jeruk</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 6.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('8', 'Es Jeruk', 6000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/esteh.jpg" alt="-" class="w-full h-150 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">es teh manis Jawa </h3>
+                            <p class="text-gray-600 text-sm mt-2">es teh enak bet</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 5.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('9', 'Es Teh manis', 5000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+
+
+    <!-- section sambal -->
+    <section id="sambal" class=" bg-white py-16">
+        <div class=" mx-auto px-4 container">
+            <h2 class="text-3xl font-bold text-blue-700 text-center mb-12  underline underline-offset-8">sambal</h2>
+
+            <!-- Grid Produk -->
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                <!-- card 1-->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/sambal-bawang.jpg" alt="-" class="w-full h-140  object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Sambal Bawang </h3>
+                            <p class="text-gray-600 text-sm mt-2">Sambal Bawang</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 25.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('10', 'Sambal Bawang', 25000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card 2 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/sambal-baby-cumi.jpg" alt="-" class="w-full h-140 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Sambal Baby Cumi </h3>
+                            <p class="text-gray-600 text-sm mt-2">es teh enak bet</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 30.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('11', 'Sambal Baby Cumi', 30000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- card 3 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/sambal-teri.jpg" alt="-" class="w-full h-140 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Sambal Teri </h3>
+                            <p class="text-gray-600 text-sm mt-2">es teh enak bet</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 25.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('12', 'Sambal Teri', 25000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card 4
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/sambal-teri.jpg" alt="-" class="w-full h-140 object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Sambal Teri </h3>
+                            <p class="text-gray-600 text-sm mt-2">es teh enak bet</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 25.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                             <button disabled onclick="tambahKeKeranjang('13', 'Sambal Teri', 25000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- card 4 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/sambal-bajak.jpg" alt="-" class="w-full h-140  object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Sambal Bajak </h3>
+                            <p class="text-gray-600 text-sm mt-2">es teh enak bet</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 25.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                              <button disabled onclick="tambahKeKeranjang('13', 'Sambal Bajak', 25000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card 5 -->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/sambel-ungker.jpg" alt="-" class="w-full h-140  object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Sambal Ungker </h3>
+                            <p class="text-gray-600 text-sm mt-2">es teh enak bet</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 25.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('14', 'Sambal Ungker', 25000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+
+
+    <!-- section siomay -->
+    <section id="siomay" class=" bg-white py-16">
+        <div class=" mx-auto px-4 container">
+            <h2 class="text-3xl font-bold text-blue-700 text-center mb-12  underline underline-offset-8">Siomay</h2>
+
+            <!-- Grid Produk -->
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                <!-- card 1-->
+                <div data-aos="fade-right">
+                    <div
+                        class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
+                        <img src="/dist/asset/siomay.jpg" alt="-" class="w-full h-140  object-cover grayscale">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800">Siomay </h3>
+                            <p class="text-gray-600 text-sm mt-2">es teh enak bet</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-blue-600">Rp 15.000</span>
+                            </div>
+                            <div>
+                                <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
+                            </div>
+                            <button disabled onclick="tambahKeKeranjang('15', 'Siomay', 15000) "
+                                class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
+                                STOK HABIS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gradient-to-r shadow-lg from-blue-50 to-indigo-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Kontak Kami</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Butuh bantuan atau ingin bertanya seputar produk dan layanan kami?
+                    Hubungi kami langsung melalui WhatsApp.
+                </p>
+            </div>
+
+            <div class="flex justify-center">
+                <div class="bg-white shadow-lg rounded-xl p-8 w-full text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fab fa-whatsapp text-green-600 text-3xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">WhatsApp</h3>
+                    <p class="text-gray-600 mb-6">
+                        Tim kami siap membantu Anda setiap hari. Klik tombol di bawah untuk memulai chat.
+                    </p>
+                    <a href="wa.html" rel="noopener noreferrer" target="_blank"
+                        class=" bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 w-full sm:w-auto md:hover:bg-[128C7E] md:w-[30%] flex justify-center items-center gap-2 md:mx-auto md:hover:scale-105">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        Chat via WhatsApp
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 pl-4 justify-center items-center ">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 xl:gap-32  ">
+
+
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center mb-4 ">
+                        <div
+                            class="w-10 h-10 bg-blue-600 rounded-md flex items-center justify-center text-white font-bold mr-2">
+                            R
+                        </div>
+                        <h3 class="text-xl font-bold">Rumah Alifdandy</h3>
+                    </div>
+                    <p class="text-gray-400">
+                        Perusahaan UMKM yang menyediakan berbagai produk dan layanan berkualitas untuk kebutuhan Anda.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="md: md:items-center md:text-center">
+                    <h4 class="text-lg font-semibold mb-4">Tautan Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/dist/index.html" class="text-gray-400 hover:text-white transition">Beranda</a>
+                        </li>
+                        <li><a href="index.html#about" class="text-gray-400 hover:text-white transition">Tentang
+                                Kami</a></li>
+                        <!-- <li><a href="#services" class="text-gray-400 hover:text-white transition">Layanan</a></li> -->
+                        <li><a href="#kategori" class="text-gray-400 hover:text-white transition">Menu</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">Kontak</a></li>
+                    </ul>
+                </div>
+
+
+
+            </div>
+            <!-- Copyright -->
+            <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 Rumah Alifdandy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    const mobileNav = document.getElementById("mobile-nav");
+    const mobileBtn = document.getElementById("mobile");
+    const closeMobile = document.getElementById("close-mobile");
+   
+
+    const cartBtn = document.getElementById('cart-btn');
+    const cartPopup = document.getElementById('cart-popup');
+    const closeCart = document.getElementById('close-cart');
+
+    const cartNama = document.getElementById('cart-nama')
+
+    let cart = [];
+
+    function tambahKeKeranjang(id, name, harga) {
+        const existing = cart.find(item => item.id === id)
+
+        if (existing) {
+            existing.qty++
+        } else {
+            cart.push({ id, name, harga, qty: 1 })
+        }
+
+        alert("berhasil menambah ke keranjang")
+        updateCart()
+    }
+
+    function updateCart() {
+        const list = document.getElementById("cart-items");
+        const total = document.getElementById("cart-total")
+        const count = document.getElementById("cart-count")
+
+        list.innerHTML = ''
+        let totalHarga = 0
+        let totalItem = 0
+
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.classList.add("flex", "justify-between", "items-center", "py-4");
+            li.innerHTML = `
+    <span>${item.name} x${item.qty}</span>
+    <div class="flex items-center gap-2">
+    <span>Rp ${item.harga * item.qty}</span>
+
+    <button onclick="tambahItem('${item.id}')"
+      class="text-black hover:text-black/40 transition-all ease-in-out">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <button onclick="kurangItem('${item.id}')"
+      class="text-black hover:text-black/40 transition-all ease-in-out">
+      <i class="fa-solid fa-minus"></i>
+    </button>
+
+    <button onclick="hapusItem('${item.id}')"
+      class="text-black/50 hover:text-black transition-all ease-in-out">
+      <i class="fa-solid fa-trash"></i>
+    </button>
+  </div>
+`;
+
+            list.appendChild(li)
+
+            totalHarga += item.harga * item.qty
+            totalItem += item.qty
+        });
+
+        total.textContent = "Rp" + totalHarga.toLocaleString()
+        count.textContent = `${totalItem}`
+        count.classList.toggle("hidden", totalItem === 0);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCart();
+    }
+
+    function hapusItem(id) {
+        cart = cart.filter(item => item.id !== id); // filter yang bukan id itu
+        updateCart(); // update tampilan
+    }
+
+    function tambahItem(id) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            item.qty++;
+            updateCart();
+        }
+    }
+
+    function kurangItem(id) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            item.qty--;
+            if (item.qty <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+            updateCart();
+        }
+    }
+
+    function formatWa() {
+
+        if (cart.length === 0) return ""
+        const isiNama = cartNama.value
+
+        if (isiNama === "") {
+            alert("masukan nama")
+            return ""
+        }
+
+        let message = `halo nama saya ${isiNama} ingin memesan:\n`;
+        let totalHarga = 0;
+
+        cart.forEach((item, index) => {
+            message += `${index + 1}. ${item.name} x${item.qty} - Rp ${item.harga * item.qty}\n`;
+            totalHarga += item.harga * item.qty;
+
+        })
+        message += `\nTotal: Rp ${totalHarga.toLocaleString('id-ID')}`;
+        return encodeURIComponent(message);
+    }
+
+    document.getElementById("wa-btn").addEventListener("click", (e) => {
+        const waNumber = "628161171508"; // ganti dengan nomor tujuan"
+        const waMessage = formatWa();
+        if (waMessage === "") return; // kalau keranjang kosong, jangan buka WA
+        e.currentTarget.href = `https://wa.me/${waNumber}?text=${waMessage}`;
+    });
+
+
+    cartBtn.addEventListener("click", () => {
+        cartPopup.classList.remove("hidden")
+        cartPopup.classList.add("flex")
+    });
+
+    closeCart.addEventListener("click", () => {
+        cartPopup.classList.add("hidden")
+        cartPopup.classList.remove("flex")
+    })
+
+    cartPopup.addEventListener(("click"), (e) => {
+        if (e.target === cartPopup) {
+            cartPopup.classList.add("hidden")
+            cartPopup.classList.remove("flex")
+        }
+    })
+
+
+    const Navlink = document.querySelectorAll("#mobile-nav a");
+
+    Navlink.forEach(nav => {
+        nav.addEventListener("click", () => {
+            mobileNav.classList.add("-translate-x-full");
+            mobileBtn.classList.remove("bg-gray-200");
+        })
+    })
+
+    mobileBtn.addEventListener("click", () => {
+        mobileNav.classList.toggle("-translate-x-full");
+        mobileBtn.classList.toggle("bg-gray-200");
+    });
+
+    closeMobile.addEventListener("click", () => {
+        mobileNav.classList.add("-translate-x-full");
+        mobileBtn.classList.remove("bg-gray-200");
+    });
+
+
+</script>
+<script>
+    AOS.init();
+</script>
+
+</html>

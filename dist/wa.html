@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect WhatsApp</title>
+</head>
+
+<body style="display:flex;align-items:center;justify-content:center;height:100vh;">
+    <p>Mengarahkan ke WhatsApp...</p>
+
+    <script>
+        // nomor dipisah
+        let part1 = "6281";
+        let part2 = "6117";
+        let part3 = "1508";
+        let nomor = part1 + part2 + part3;
+
+        let pesan = encodeURIComponent("Halo RumahAlifDandy, saya ingin bertanya");
+
+        // redirect otomatis
+        window.location.href = "https://wa.me/" + nomor + "?text=" + pesan;
+    </script>
+    <noscript>
+        <meta http-equiv="refresh"
+            content="0; url=https://wa.me/628161171508?text=Halo%20RumahAlifDandy%2C%20saya%20ingin%20bertanya">
+    </noscript>
+</body>
+
+</html>
