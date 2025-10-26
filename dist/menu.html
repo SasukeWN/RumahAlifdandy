@@ -79,7 +79,7 @@
                     <h1 class="text-xl md:text-2xl font-bold text-blue-700">RumahAlifDandy</h1>
                 </div>
 
-                <div class="flex items-center justify-center gap-10 ">
+                <div class="flex items-center justify-center gap-4 ">
                     <nav class="hidden md:flex space-x-8">
                         <a href="index.html" class="text-gray-700 hover:text-blue-600 transition">Beranda</a>
                         <!-- <a href="#about" class="text-gray-700 hover:text-blue-600 transition">Tentang</a> -->
@@ -126,8 +126,9 @@
     </header>
 
     <!-- CART POPUP -->
-    <div id="cart-popup" class="fixed inset-0 bg-black/50 bg-opacity-40  items-center justify-center hidden z-50">
-        <div class="bg-white w-120 rounded-2xl shadow-lg p-5 relative md:w-140">
+    <div id="cart-popup" class="fixed inset-0 bg-black/50 bg-opacity-40 flex items-center justify-center hidden z-50">
+        <div id="cart-container"
+            class="bg-white -translate-y-full w-120 rounded-2xl shadow-lg transition-all duration-500 ease-in-out p-5 relative md:w-140 mt-10 opacity-0">
 
 
             <div class="flex justify-between items-center border-b pb-3">
@@ -345,8 +346,7 @@
                 <div data-aos="fade-right">
                     <div
                         class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition hover:scale-105 duration-300 ">
-                        <img src="asset/jus-melon.jpg" alt="jus melon"
-                            class="w-full h-150 object-cover grayscale">
+                        <img src="asset/jus-melon.jpg" alt="jus melon" class="w-full h-150 object-cover grayscale">
                         <div class="p-6">
                             <h3 class="text-xl font-semibold text-gray-800">Jus Melon</h3>
                             <p class="text-gray-600 text-sm mt-2">Jus Melon</p>
@@ -521,7 +521,7 @@
                             <div>
                                 <h1 class="text-black text-[14px] font-bold">Stok sementara Habis</h1>
                             </div>
-                              <button disabled onclick="tambahKeKeranjang('13', 'Sambal Bajak', 25000) "
+                            <button disabled onclick="tambahKeKeranjang('13', 'Sambal Bajak', 25000) "
                                 class="flex items-center mt-10 justify-center p-4 text-white text-[15px] rounded-2xl w-full  transition-all duration-300 ease-in-out bg-gray-400 cursor-not-allowed ">
                                 STOK HABIS
                             </button>
@@ -672,11 +672,12 @@
     const mobileNav = document.getElementById("mobile-nav");
     const mobileBtn = document.getElementById("mobile");
     const closeMobile = document.getElementById("close-mobile");
-   
+
 
     const cartBtn = document.getElementById('cart-btn');
     const cartPopup = document.getElementById('cart-popup');
     const closeCart = document.getElementById('close-cart');
+    const cartContainer = document.getElementById("cart-container")
 
     const cartNama = document.getElementById('cart-nama')
 
@@ -795,30 +796,42 @@
     }
 
     document.getElementById("wa-btn").addEventListener("click", (e) => {
-        const waNumber = "628161171508"; // ganti dengan nomor tujuan"
+        const waNumber = "628161171508";
         const waMessage = formatWa();
-        if (waMessage === "") return; // kalau keranjang kosong, jangan buka WA
+        if (waMessage === "") return;
         e.currentTarget.href = `https://wa.me/${waNumber}?text=${waMessage}`;
     });
 
 
     cartBtn.addEventListener("click", () => {
-        cartPopup.classList.remove("hidden")
-        cartPopup.classList.add("flex")
+        cartPopup.classList.remove("hidden");
+        requestAnimationFrame(() => {
+            cartContainer.classList.remove("-translate-y-full", "opacity-0");
+            cartContainer.classList.add("translate-y-0", "opacity-100");
+        });
     });
 
     closeCart.addEventListener("click", () => {
-        cartPopup.classList.add("hidden")
-        cartPopup.classList.remove("flex")
-    })
+        // 1️⃣ Naik & fade out
+        cartContainer.classList.add("-translate-y-full", "opacity-0");
+        cartContainer.classList.remove("translate-y-0", "opacity-100");
 
-    cartPopup.addEventListener(("click"), (e) => {
+        // 2️⃣ Sembunyikan setelah animasi selesai
+        setTimeout(() => {
+            cartPopup.classList.add("hidden");
+        }, 500); // sesuaikan dengan durasi transisi
+    });
+
+    cartPopup.addEventListener("click", (e) => {
         if (e.target === cartPopup) {
-            cartPopup.classList.add("hidden")
-            cartPopup.classList.remove("flex")
-        }
-    })
+            cartContainer.classList.add("-translate-y-full", "opacity-0");
+            cartContainer.classList.remove("translate-y-0", "opacity-100");
 
+            setTimeout(() => {
+                cartPopup.classList.add("hidden");
+            }, 500);
+        }
+    });
 
     const Navlink = document.querySelectorAll("#mobile-nav a");
 
