@@ -68,7 +68,10 @@
 
 
     <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-white shadow-md sticky top-0 z-50 ">
+        <!-- Overlay -->
+        <div id="overlay" class="fixed inset-0 bg-black/50 bg-opacity-50 hidden md:hidden z-40"></div>
+
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
@@ -178,21 +181,22 @@
     </section>
 
     <!-- kategori section -->
-   <!-- Kategori Section -->
-<section id="kategori" class="bg-gray-100 py-10 scroll-mt-24">
-  <div class="max-w-3xl mx-auto text-center px-4">
-    <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-4">Kategori</h2>
-    <div class="flex flex-wrap justify-center items-center gap-3 text-sm md:text-base font-medium text-gray-700">
-      <a href="#ayam" class="text-blue-600 hover:text-blue-800 transition-colors">Ayam</a>
-      <span class="text-gray-400">|</span>
-      <a href="#minuman" class="text-blue-600 hover:text-blue-800 transition-colors">Minuman</a>
-      <span class="text-gray-400">|</span>
-      <a href="#sambal" class="text-blue-600 hover:text-blue-800 transition-colors">Sambal</a>
-      <span class="text-gray-400">|</span>
-      <a href="#siomay" class="text-blue-600 hover:text-blue-800 transition-colors">Siomay</a>
-    </div>
-  </div>
-</section>
+    <!-- Kategori Section -->
+    <section id="kategori" class="bg-gray-100 py-10 scroll-mt-24">
+        <div class="max-w-3xl mx-auto text-center px-4">
+            <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-4">Kategori</h2>
+            <div
+                class="flex flex-wrap justify-center items-center gap-3 text-sm md:text-base font-medium text-gray-700">
+                <a href="#ayam" class="text-blue-600 hover:text-blue-800 transition-colors">Ayam</a>
+                <span class="text-gray-400">|</span>
+                <a href="#minuman" class="text-blue-600 hover:text-blue-800 transition-colors">Minuman</a>
+                <span class="text-gray-400">|</span>
+                <a href="#sambal" class="text-blue-600 hover:text-blue-800 transition-colors">Sambal</a>
+                <span class="text-gray-400">|</span>
+                <a href="#siomay" class="text-blue-600 hover:text-blue-800 transition-colors">Siomay</a>
+            </div>
+        </div>
+    </section>
 
 
     <!-- Section Produk ayam  -->
@@ -677,6 +681,7 @@
     const mobileNav = document.getElementById("mobile-nav");
     const mobileBtn = document.getElementById("mobile");
     const closeMobile = document.getElementById("close-mobile");
+    const overlay = document.getElementById("overlay")
 
 
     const cartBtn = document.getElementById('cart-btn');
@@ -850,12 +855,20 @@
     mobileBtn.addEventListener("click", () => {
         mobileNav.classList.toggle("-translate-x-full");
         mobileBtn.classList.toggle("bg-gray-200");
+        overlay.classList.remove("hidden")
     });
 
     closeMobile.addEventListener("click", () => {
         mobileNav.classList.add("-translate-x-full");
         mobileBtn.classList.remove("bg-gray-200");
+        overlay.classList.add("hidden")
     });
+
+    overlay.addEventListener("click", () => {
+        mobileNav.classList.add("-translate-x-full");
+        mobileBtn.classList.remove("bg-gray-200");
+        overlay.classList.add("hidden")
+    })
 
 
 </script>
